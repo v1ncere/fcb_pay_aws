@@ -27,7 +27,10 @@ class AccountSettingsView extends StatelessWidget {
                   timer = Timer(const Duration(milliseconds: 2000), () {
                     Navigator.of(ctx).pop(true);
                   });
-                  return const AnimationDialog(icon: FontAwesomeIcons.check, color: Colors.green);
+                  return const AnimationDialog(
+                    icon: FontAwesomeIcons.check,
+                    color: Colors.green
+                  );
                 }
               ).then((_) {
                 timer?.cancel();
@@ -55,7 +58,7 @@ class AccountSettingsView extends StatelessWidget {
               ),
               ContainerBody(
                 children: [
-                  // AddAccountButton(),
+                  AddAccountButton(),
                   SizedBox(height: 10),
                   AccountListViewDisplay()
                 ]

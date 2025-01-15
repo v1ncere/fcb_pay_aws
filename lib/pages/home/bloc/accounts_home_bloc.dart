@@ -44,7 +44,7 @@ class AccountsHomeBloc extends Bloc<AccountsHomeEvent, AccountsHomeState> {
 
   // change credit display
   Future<void> _onCreditDisplayChanged(CreditDisplayChanged event, Emitter<AccountsHomeState> emit) async {
-    _hiveRepository.addCreditId(uid: state.uid, account: event.id); // save id into local storate using [hive]
+    _hiveRepository.addCreditId(uid: state.uid, account: event.id); // save id into local storage using [hive]
     emit(state.copyWith(status: Status.loading)); // emit status loading
     await _fetchDataAndRefreshState(emit); // refresh the state
   }

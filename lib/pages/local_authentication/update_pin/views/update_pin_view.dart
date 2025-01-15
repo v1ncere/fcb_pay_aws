@@ -36,7 +36,7 @@ class UpdatePinView extends StatelessWidget {
       ),
       body: BlocListener<UpdatePinBloc, UpdatePinState>(
         listener: (context, state) {
-          // current pincode successful
+          // current pinCode successful
           if (state.status.isCurrentEquals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -47,7 +47,7 @@ class UpdatePinView extends StatelessWidget {
               foregroundColor: ColorString.mystic,
             ));
           }
-          // current pincode failure
+          // current pinCode failure
           if (state.status.isCurrentUnequals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -58,7 +58,7 @@ class UpdatePinView extends StatelessWidget {
               foregroundColor: ColorString.mystic,
             ));
           }
-          // update pincode successful
+          // update pinCode successful
           if (state.status.isUpdateEquals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -70,7 +70,7 @@ class UpdatePinView extends StatelessWidget {
             ));
             context.replaceNamed(RouteName.authPin);
           }
-          // update pincode failure
+          // update pinCode failure
           if (state.status.isUpdateUnequals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

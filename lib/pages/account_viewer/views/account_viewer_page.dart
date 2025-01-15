@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../models/ModelProvider.dart';
 import '../account_viewer.dart';
 
-class AccountPage extends StatelessWidget {
-  const AccountPage({super.key, required this.account});
+class AccountViewerPage extends StatelessWidget {
+  const AccountViewerPage({super.key, required this.account});
   final Account account;
 
   @override
@@ -19,11 +19,10 @@ class AccountPage extends StatelessWidget {
         BlocProvider(create: (context) => AccountButtonBloc()
         ..add(ButtonsFetched(account.type!))),
         BlocProvider(create: (context) => AccountsBloc()
-        ..add(FetchUserUID())
         ..add(AccountsFetched(account))),
         BlocProvider(create: (context) => CarouselCubit()..setAccount(account: account)),
       ],
-      child: AccountView(account: account)
+      child: AccountViewerView(account: account)
     );
   }
 }

@@ -17,18 +17,18 @@ class AccountButtonBloc extends Bloc<AccountButtonEvent, AccountButtonState> {
 
   void _onButtonsFetched(ButtonsFetched event, Emitter<AccountButtonState> emit) async {
     try {
-      final request = ModelQueries.get<AccountButton>(AccountButton.classType, AccountButtonModelIdentifier(type: event.type)); // acount type i.e.(wallet, cc, sa)
+      final request = ModelQueries.get<AccountButton>(AccountButton.classType, AccountButtonModelIdentifier(type: event.type)); // account type i.e.(wallet, cc, sa)
       final response = await Amplify.API.query(request: request).response; // query from graphql
       final accountButton = response.data;
-      // 
+      //
       if(accountButton != null) {
-        final firstRequest = ModelQueries.list<Button>(Button.classType, where: Button.ACCOUNTBUTTON.eq(accountButton.type));
+        final firstRequest = ModelQueries.list(Button.classType, where: Button.ACCOUNTBUTTON.eq(accountButton.type));
         final firstResult = await Amplify.API.query(request: firstRequest).response;
         final firstPageData = firstResult.data?.items;
         //
         if (firstPageData != null) {
-          final data = firstPageData.whereType<Button>().toList();
-          emit(state.copyWith(status: Status.success, buttonList: data));
+          final buttonList = firstPageData.whereType<Button>().toList();
+          emit(state.copyWith(status: Status.success, buttonList: buttonList));
         } else {
           emit(state.copyWith(status: Status.failure, message: TextString.empty));
         }

@@ -75,7 +75,7 @@ class WidgetsBloc extends Bloc<WidgetsEvent, WidgetsState> {
   void _onExtraWidgetFetched(ExtraWidgetFetched event, Emitter<WidgetsState> emit) async {
     emit(state.copyWith(extraWidgetStatus: Status.loading));
     try {
-      // get the extra widgets base on the intitution dropdown selection
+      // get the extra widgets base on the institution dropdown selection
       final request = ModelQueries.list(DynamicWidget.classType, where: DynamicWidget.INSTITUTIONEXTRAWIDGET.eq(event.id));
       final response = await Amplify.API.query(request: request).response;
       final items = response.data?.items;
@@ -129,7 +129,7 @@ class WidgetsBloc extends Bloc<WidgetsEvent, WidgetsState> {
           return "${e.key}:${e.value.replaceAll(',', '')}"; // return formatted entries into <key>:<value> pair
         }).join(','); // join all entries into a string separated by a comma (",")
 
-        String extraWidget = _widgetDataMap(state.extraWidgetList).entries.map((e) { // transfrom list into map
+        String extraWidget = _widgetDataMap(state.extraWidgetList).entries.map((e) { // transform list into map
           return "${e.key}:${e.value.replaceAll(',', '')}"; // return  into key value pair
         }).join(','); // join all entries into a string separated by comma
 

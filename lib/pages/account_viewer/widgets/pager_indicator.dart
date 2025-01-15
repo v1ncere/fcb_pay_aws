@@ -29,7 +29,7 @@ Widget pagerIndicator({
                 : Colors.black12,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     spreadRadius: 0.5,
                     blurRadius: 1.0,
                     offset: const Offset(0, 1.5)

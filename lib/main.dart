@@ -13,7 +13,7 @@ Future<void> main() async {
   await configureAmplify();
   await Hive.initFlutter();
   Hive.registerAdapter(QRModelAdapter());
-  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: await getApplicationDocumentsDirectory());
+  HydratedBloc.storage = await HydratedStorage.build(storageDirectory: HydratedStorageDirectory((await getTemporaryDirectory()).path));
   Bloc.observer = const AppBlocObserver();
   runApp(const App());
   configLoading();

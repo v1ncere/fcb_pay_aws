@@ -45,7 +45,7 @@ class AppbarTrailingButton extends StatelessWidget {
             );
         }
         if (state.status.isFailure) {
-          return const Center(child: Text('Error Occured'));
+          return const Center(child: Text('Error Occurred'));
         }
         else {
           return const SizedBox.shrink();

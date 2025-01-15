@@ -13,7 +13,6 @@ part 'notifications_state.dart';
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc() : super(const NotificationsState(status: Status.loading)) {
-    on<CurrentUserFetched>(_onCurrentUserFetched);
     on<NotificationsFetched>(_onNotificationsFetched);
     on<NotificationsStreamed>(_onNotificationsStreamed);
     on<NotificationsUpdated>(_onNotificationsUpdated);
@@ -21,26 +20,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
   StreamSubscription<GraphQLResponse<Notification>>? subscription;
 
-  Future<void> _onCurrentUserFetched(CurrentUserFetched event, Emitter<NotificationsState> emit) async {
-    emit(state.copyWith(userStatus: Status.loading));
-    try {
-      final user = await Amplify.Auth.getCurrentUser();
-      emit(state.copyWith(userStatus: Status.success, uid: user.userId));
-    } on AuthException catch (e) {
-      emit(state.copyWith(userStatus: Status.failure, message: e.message));
-    } catch (e) {
-      emit(state.copyWith(userStatus: Status.failure, message: e.toString()));
-    }
-  }
-
   Future<void> _onNotificationsFetched(NotificationsFetched event, Emitter<NotificationsState> emit) async {
     emit(state.copyWith(status: Status.loading));
     try {
-      final request = ModelQueries.list(Notification.classType, where: Notification.OWNERID.eq(state.uid));
+      final user = await Amplify.Auth.getCurrentUser();
+      final request = ModelQueries.list(Notification.classType, where: Notification.OWNERID.eq(user.userId));
       final response = await Amplify.API.query(request: request).response;
       final items = response.data?.items;
 
-      if (items != null && items.isNotEmpty) {
+      if (items != null) {
         final notifications = items.whereType<Notification>().toList();
         add(NotificationsUpdated(notifications: notifications));
       } else {
@@ -53,8 +41,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     }
   }
 
-  void _onNotificationsStreamed(NotificationsStreamed event, Emitter<NotificationsState> emit) {
-    final subscriptionRequest = ModelSubscriptions.onCreate(Notification.classType, where: Notification.OWNERID.eq(state.uid));
+  void _onNotificationsStreamed(NotificationsStreamed event, Emitter<NotificationsState> emit) async {
+    final user = await Amplify.Auth.getCurrentUser();
+    final subscriptionRequest = ModelSubscriptions.onCreate(Notification.classType, where: Notification.OWNERID.eq(user.userId));
     final operation = Amplify.API.subscribe(subscriptionRequest, onEstablished: () => safePrint('Subscription Established'));
     subscription = operation.listen(
       (event) {
@@ -81,8 +70,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(state.copyWith(updateStatus: Status.loading));
     try {
       final notification = event.notification;
-      final updateNofications = notification.copyWith(isRead: true);
-      final request = ModelMutations.update(updateNofications, where: Notification.ID.eq(notification.id));
+      final updateNotifications = notification.copyWith(isRead: true);
+      final request = ModelMutations.update(updateNotifications, where: Notification.ID.eq(notification.id));
       final response = await Amplify.API.mutate(request: request).response;
       emit(state.copyWith(updateStatus: Status.success, message: response.toString()));
     } on ApiException catch (e) {

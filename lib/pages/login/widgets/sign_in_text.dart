@@ -15,7 +15,7 @@ class SignInText extends StatelessWidget {
         shadows: [
           Shadow(
             blurRadius: 3,
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             offset: const Offset(0.2, 1.0)
           )
         ]

@@ -27,7 +27,7 @@ class SignUpVerifyBloc extends Bloc<SignUpVerifyEvent, SignUpVerifyState> {
     birthdateController: TextEditingController(),
     signupVerifyReply: verifyReply
   )) {
-    on<AccountTypeDropdownChanged>(_onAccountTypeDropdownChanged);
+    on <AccountTypeDropdownChanged>(_onAccountTypeDropdownChanged);
     on<AccountNumberChanged>(_onAccountNumberChanged);
     on<FirstNameChanged>(_onFirstNameChanged);
     on<LastNameChanged>(_onLastNameChanged);
@@ -47,7 +47,7 @@ class SignUpVerifyBloc extends Bloc<SignUpVerifyEvent, SignUpVerifyState> {
     emit(state.copyWith(accountType: event.accountType));
   }
 
-  // TEXTFORMFIELDS =========================================================================
+  // TEXT FORM FIELDS =========================================================================
   void _onAccountNumberChanged(AccountNumberChanged event, Emitter<SignUpVerifyState> emit) {
     final account = AccountNumber.dirty(event.account);
     emit(state.copyWith(accountNumber: account));
@@ -195,12 +195,12 @@ class SignUpVerifyBloc extends Bloc<SignUpVerifyEvent, SignUpVerifyState> {
   String _dataInterpolation() {
     final type = state.accountType;
     final savings = type.isSavings;
-    final accnt = state.accountNumber.value.replaceAll(RegExp(r'\s+'), '');
+    final acct = state.accountNumber.value.replaceAll(RegExp(r'\s+'), '');
     final fName = savings ? '|${state.firstName.value.trim()}' : '';
     final lName = savings ? ',${state.lastName.value.trim()}' : '';
-    final bdate = state.birthdateController.text.trim();
+    final birth = state.birthdateController.text.trim();
 
-    return '${type.name}|$accnt$fName$lName|$bdate';
+    return '${type.name}|$acct$fName$lName|$birth';
   }
 
   void emitError({

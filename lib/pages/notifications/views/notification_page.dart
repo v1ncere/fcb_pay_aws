@@ -8,9 +8,7 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => NotificationsBloc()
-    ..add(CurrentUserFetched())
-    ..add(NotificationsStreamed()),
+    return BlocProvider(create: (context) => NotificationsBloc()..add(NotificationsStreamed()),
       child: const NotificationView()
     );
   }

@@ -115,6 +115,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       case AuthSignInStep.done:
         add(AuthSignInStepDone());
         break;
+      case AuthSignInStep.continueSignInWithMfaSetupSelection:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case AuthSignInStep.continueSignInWithEmailMfaSetup:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case AuthSignInStep.confirmSignInWithOtpCode:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
   }
 

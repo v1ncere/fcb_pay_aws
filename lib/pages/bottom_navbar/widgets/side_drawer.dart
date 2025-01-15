@@ -45,12 +45,12 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(FontAwesomeIcons.circlePlus),
             title: const Text('Add account'),
-            onTap: () {}// navigate to add account,
+            onTap: () => context.pushNamed(RouteName.addAccount) // navigate to add account,
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            onTap: () {} // navigate to add account,
+            onTap: () => context.pushNamed(RouteName.settings), // navigate to add account,
           ),
           const Divider(),
           ListTile(

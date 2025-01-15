@@ -103,7 +103,7 @@ class SelectedInputBorderWithShadow extends OutlineInputBorder {
     if (gapStart == null || gapExtent <= 0.0 || gapPercentage == 0.0) {
       Path path = Path();
       path.addRRect(center);
-      canvas.drawShadow(path, Colors.black.withOpacity(0.5), 4, true);
+      canvas.drawShadow(path, Colors.black.withValues(alpha: 0.5), 4, true);
       
       final shadowPaint = Paint();
       shadowPaint.strokeWidth = 0;

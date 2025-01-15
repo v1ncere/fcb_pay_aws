@@ -9,8 +9,8 @@ import '../../../utils/utils.dart';
 import '../account_viewer.dart';
 import '../widgets/widgets.dart';
 
-class AccountView extends StatelessWidget {
-  const AccountView({super.key, required this.account});
+class AccountViewerView extends StatelessWidget {
+  const AccountViewerView({super.key, required this.account});
   final Account account;
 
   @override

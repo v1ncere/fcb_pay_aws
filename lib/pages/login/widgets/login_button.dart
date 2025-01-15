@@ -17,7 +17,7 @@ class LoginButton extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 spreadRadius: 0.3,
                 blurRadius: 2,
                 offset: const Offset(0, 1)
@@ -30,7 +30,7 @@ class LoginButton extends StatelessWidget {
               color:const Color(0xFF25C166),
               child: InkWell(
                 splashColor: Colors.white38,
-                onTap: () => _emialAndPasswordAuth(context), 
+                onTap: () => _emailAndPasswordAuth(context), 
                 child: const SizedBox(
                   width: 56,
                   height: 56,
@@ -48,7 +48,7 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-void _emialAndPasswordAuth(BuildContext context) {
+void _emailAndPasswordAuth(BuildContext context) {
   FocusManager.instance.primaryFocus?.unfocus();
   context.read<LoginBloc>().add(LoggedInWithCredentials());
 }

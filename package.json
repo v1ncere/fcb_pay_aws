@@ -13,14 +13,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@aws-amplify/backend": "^1.2.0",
-    "@aws-amplify/backend-cli": "^1.2.5",
+    "@aws-amplify/backend": "^1.11.0",
+    "@aws-amplify/backend-cli": "^1.4.5",
     "aws-cdk": "^2.155.0",
     "aws-cdk-lib": "^2.155.0",
     "constructs": "^10.3.0",
     "esbuild": "^0.23.1",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.4"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "aws-amplify": "^6.5.3"

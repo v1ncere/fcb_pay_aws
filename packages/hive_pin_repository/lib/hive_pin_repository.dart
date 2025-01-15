@@ -1,3 +1,3 @@
-library hive_pin_repository;
+library;
 
 export 'src/hive_pin_repository.dart';

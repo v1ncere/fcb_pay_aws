@@ -3,21 +3,25 @@ part of 'account_settings_bloc.dart';
 class AccountSettingsState extends Equatable {
   const AccountSettingsState({
     this.status = Status.initial,
-    this.message = ''
+    this.userStatus = Status.initial,
+    this.message = '',
   });
-  final String message;
   final Status status;
+  final Status userStatus;
+  final String message;
 
   AccountSettingsState copyWith({
+    Status? status,
+    Status? userStatus,
     String? message,
-    Status? status
   }) {
     return AccountSettingsState(
+      status: status ?? this.status,
+      userStatus: userStatus ?? this.status,
       message: message ?? this.message,
-      status: status ?? this.status
     );
   }
   
   @override
-  List<Object> get props => [status, message];
+  List<Object> get props => [status, userStatus, message];
 }

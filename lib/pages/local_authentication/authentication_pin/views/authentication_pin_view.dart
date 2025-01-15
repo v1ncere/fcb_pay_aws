@@ -43,11 +43,11 @@ class AuthPinView extends StatelessWidget {
           // listen to pin code
           BlocListener<AuthPinBloc, AuthPinState>(
             listener: (context, state) {
-              // pincode correct
+              // pinCode correct
               if (state.status.isEquals) {
                 context.goNamed(RouteName.bottomNavbar);
               }
-              // pincode incorrect
+              // pinCode incorrect
               if (state.status.isUnequals) {
                 ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()

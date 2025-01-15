@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/app.dart';
-// import '../../account_settings/account_settings.dart';
 import '../../../app/widgets/widgets.dart';
 import '../../../utils/utils.dart';
+import '../../account_settings/account_settings.dart';
 import '../../home/home.dart';
-// import '../../home_flow/home_flow.dart';
-// import '../../payments/payments.dart';
-// import '../../scanner/scanner.dart';
-// import '../../transfers/transfers.dart';
+import '../../payments/payments.dart';
+import '../../scanner/scanner.dart';
+import '../../transfers/transfers.dart';
 import '../bottom_navbar.dart';
 
 class BottomNavbarView extends StatelessWidget {
@@ -34,10 +33,10 @@ class BottomNavbarView extends StatelessWidget {
               onPageChanged: (index) => context.read<BottomNavbarCubit>().setTab(BottomNavbarTab.values[index]),
               children: const [
                 HomePage(),
-                // PaymentsPage(),
-                // ScannerPage(),
-                // TransfersPage(),
-                // AccountSettingsPage()
+                PaymentsPage(),
+                ScannerPage(),
+                TransfersPage(),
+                AccountSettingsPage()
               ]
             ),
             bottomNavigationBar: bottomNavAppBar(tab: tab, controller: controller),

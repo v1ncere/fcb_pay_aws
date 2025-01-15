@@ -3,14 +3,13 @@ part of 'notifications_bloc.dart';
 class NotificationsState extends Equatable {
   const NotificationsState({
     this.notifications = const <Notification>[],
-    this.uid = '',
     this.status = Status.initial,
     this.userStatus = Status.initial,
     this.updateStatus = Status.initial,
     this.message = ''
   });
   final List<Notification> notifications;
-  final String uid;
+  
   final Status status;
   final Status userStatus;
   final Status updateStatus;
@@ -18,7 +17,7 @@ class NotificationsState extends Equatable {
 
   NotificationsState copyWith({
     List<Notification>? notifications,
-    String? uid,
+    
     Status? status,
     Status? userStatus,
     Status? updateStatus,
@@ -26,7 +25,6 @@ class NotificationsState extends Equatable {
   }) {
     return NotificationsState(
       notifications: notifications ?? this.notifications,
-      uid: uid ?? this.uid,
       status: status ?? this.status,
       userStatus: userStatus ?? this.userStatus,
       updateStatus: updateStatus ?? this.updateStatus,
@@ -35,5 +33,5 @@ class NotificationsState extends Equatable {
   }
   
   @override
-  List<Object> get props => [notifications, uid, status, userStatus, updateStatus, message];
+  List<Object> get props => [notifications, status, userStatus, updateStatus, message];
 }

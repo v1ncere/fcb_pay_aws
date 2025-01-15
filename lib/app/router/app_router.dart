@@ -1,3 +1,6 @@
+import 'package:fcb_pay_aws/pages/account_add/account_add.dart';
+import 'package:fcb_pay_aws/pages/settings/views/settings_page.dart';
+import 'package:fcb_pay_aws/pages/update_password/views/update_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -92,7 +95,7 @@ class AppRouter {
               path: 'account',
               builder: (context, state) {
                 Account account = state.extra as Account;
-                return AccountPage(account: account);
+                return AccountViewerPage(account: account);
               }
             ),
             GoRoute(
@@ -131,6 +134,21 @@ class AppRouter {
                 Button button = state.extra as Button;
                 return DynamicViewerPage(button: button);
               },
+            ),
+            GoRoute(
+              name: RouteName.addAccount,
+              path: 'addAccount',
+              builder: (context, state) => const AccountAddPage()
+            ),
+            GoRoute(
+              name: RouteName.settings,
+              path: 'settings',
+              builder: (context, state) => const SettingsPage(),
+            ),
+            GoRoute(
+              name: RouteName.updatePassword,
+              path: 'updatePassword',
+              builder: (context, state) => const UpdatePasswordPage(),
             )
           ]  
         )
@@ -140,13 +158,13 @@ class AppRouter {
         final authBloc = appBloc.state.status;
         final onSplashPage = state.matchedLocation == '/splash';
 
-        // // Define protected routes
+        // Define protected routes
         // final protectedPaths = ['/dashboard', '/profile', '/settings'];
 
-        // // Check if the current route is a protected route
+        // Check if the current route is a protected route
         // final isProtectedRoute = protectedPaths.contains(state.matchedLocation);
 
-        // // Handle unauthenticated users on protected routes
+        // Handle unauthenticated users on protected routes
         // if (isUnauthenticated && isProtectedRoute) {
         //   return '/login?redirect=${state.matchedLocation}';
         // }

@@ -13,29 +13,17 @@ part 'accounts_state.dart';
 
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc() : super(const AccountsState()) {
-    on<FetchUserUID>(_onFetchUserUID);
     on<AccountsFetched>(_onAccountsLoaded);
     on<AccountsRefreshed>(_onAccountsRefreshed);
     on<AccountsBalanceRequested>(_onAccountsBalanceRequested);
-  }
-
-  Future<void> _onFetchUserUID(FetchUserUID event, Emitter<AccountsState> emit) async {
-    emit(state.copyWith(userStatus: Status.loading));
-    try {
-      final user = await Amplify.Auth.getCurrentUser();
-      emit(state.copyWith(userStatus: Status.success, uid: user.userId));
-    } on AuthException catch (e) {
-      emit(state.copyWith(userStatus: Status.failure, message: e.message));
-    } catch (e) {
-      emit(state.copyWith(userStatus: Status.failure, message: e.toString()));
-    }
   }
 
   Future<void> _onAccountsLoaded(AccountsFetched event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(status: Status.loading));
     final isConnected = await checkNetworkStatus();
     if (isConnected) {
-      final request = ModelQueries.list(Account.classType, where: Account.OWNERID.eq(state.uid));
+      final user = await Amplify.Auth.getCurrentUser();
+      final request = ModelQueries.list(Account.classType, where: Account.OWNERID.eq(user.userId));
       final response = await Amplify.API.query(request: request).response;
       final accounts = response.data?.items;
       
@@ -60,10 +48,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onAccountsBalanceRequested(AccountsBalanceRequested event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(requestStatus: Status.loading));
     try {
+      final user = await Amplify.Auth.getCurrentUser();
       final request = ModelMutations.create(Request(
         data: 'request_balance|${event.account.accountNumber}|hashed_data_for_security',
         verifier: '', 
-        ownerId: state.uid
+        ownerId: user.userId
       ));
 
       final response = await Amplify.API.mutate(request: request).response;
@@ -80,7 +69,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   void _onAccountsRefreshed(AccountsRefreshed event, Emitter<AccountsState> emit) {
-    add(FetchUserUID()); // user id request
     add(AccountsBalanceRequested(event.account)); // balance request
     add(AccountsFetched(event.account)); // actual refresh data
   }

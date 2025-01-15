@@ -67,7 +67,7 @@ class SubmitButton extends StatelessWidget {
         fontSize: fontSize,
         shadows: <Shadow>[
           Shadow(
-            color: Colors.black.withOpacity(0.15), // Shadow color
+            color: Colors.black.withValues(alpha: 0.15), // Shadow color
             blurRadius: 1,
             offset: const Offset(0, 1)
           )

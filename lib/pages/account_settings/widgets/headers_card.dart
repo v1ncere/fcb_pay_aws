@@ -10,12 +10,12 @@ class HeadersCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
+            color: Colors.black54, // Shadow color
             spreadRadius: 1,
             blurRadius: 4,
-            offset: const Offset(0, 3)
+            offset: Offset(0, 3)
           )
         ]
       ),
@@ -24,11 +24,11 @@ class HeadersCard extends StatelessWidget {
         child: Material(
           color: const Color(0xFF25C166),
           borderRadius: BorderRadius.circular(15.0),
-          child: Padding(
-            padding: const EdgeInsets.all( 8.0),
+          child: const Padding(
+            padding: EdgeInsets.all( 8.0),
             child: Row(
               children:[
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Text(
                   'Account settings', 
                   style:TextStyle(
@@ -37,9 +37,9 @@ class HeadersCard extends StatelessWidget {
                     fontSize: 18,
                     shadows: <Shadow>[
                       Shadow(
-                        color: Colors.black.withOpacity(0.2), // Shadow color
+                        color: Colors.black54, // Shadow color
                         blurRadius: 3,
-                        offset: const Offset(0, 1.5)
+                        offset: Offset(0, 1.5)
                       )
                     ]
                   )

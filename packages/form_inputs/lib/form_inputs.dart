@@ -1,4 +1,4 @@
-library form_inputs;
+library;
 
 export 'src/account_dropdown.dart';
 export 'src/account_number.dart';

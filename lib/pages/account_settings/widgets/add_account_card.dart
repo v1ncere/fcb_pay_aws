@@ -22,12 +22,12 @@ class AddAccountCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
+            color: Colors.black54, // Shadow color
             spreadRadius: 1,
             blurRadius: 4,
-            offset: const Offset(0, 3)
+            offset: Offset(0, 3)
           )
         ]
       ),

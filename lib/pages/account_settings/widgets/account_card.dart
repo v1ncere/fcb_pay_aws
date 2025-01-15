@@ -20,12 +20,12 @@ class AccountCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
+            color: Colors.black87, // Shadow color
             spreadRadius: 1,
             blurRadius: 4,
-            offset: const Offset(0, 3)
+            offset: Offset(0, 3)
           )
         ]
       ),
@@ -48,15 +48,15 @@ class AccountCard extends StatelessWidget {
                   child: FittedBox(
                     child: Text(account,
                       textAlign: TextAlign.center,
-                      style:  TextStyle(
-                        color: const Color(0xFFFFFFFF),
+                      style:  const TextStyle(
+                        color: Color(0xFFFFFFFF),
                         fontWeight: FontWeight.w900,
                         fontSize: 16.0,
                         shadows: <Shadow>[
                           Shadow(
-                            color: Colors.black.withOpacity(0.2), // Shadow color
+                            color: Colors.black87, // Shadow color
                             blurRadius: 3,
-                            offset: const Offset(0, 1.5)
+                            offset: Offset(0, 1.5)
                           )
                         ]
                       )

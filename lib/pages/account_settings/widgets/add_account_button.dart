@@ -1,5 +1,7 @@
+import 'package:fcb_pay_aws/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import 'widgets.dart';
 
@@ -20,10 +22,7 @@ class AddAccountButton extends StatelessWidget {
               colors:const Color(0xFF00BFA5),
               icon: FontAwesomeIcons.piggyBank,
               text: 'ADD ACCOUNT',
-              function: () {
-                // TODO:
-                // context.flow<HomeRouterStatus>().update((state) => HomeRouterStatus.addAccount);
-              }
+              function: () => context.pushNamed(RouteName.addAccount)
             )
           )
         ]

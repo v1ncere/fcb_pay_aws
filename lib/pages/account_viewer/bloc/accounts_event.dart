@@ -7,8 +7,6 @@ sealed class AccountsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class FetchUserUID extends AccountsEvent {}
-
 final class AccountsFetched extends AccountsEvent {
   const AccountsFetched(this.account);
   final Account account;

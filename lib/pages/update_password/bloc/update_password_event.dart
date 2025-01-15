@@ -7,6 +7,14 @@ sealed class UpdatePasswordEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class UpdateCurrentPasswordChanged extends UpdatePasswordEvent {
+  const UpdateCurrentPasswordChanged(this.currentPassword);
+  final String currentPassword;
+
+  @override
+  List<Object> get props => [currentPassword];
+}
+
 final class UpdateNewPasswordChanged extends UpdatePasswordEvent {
   const UpdateNewPasswordChanged(this.newPassword);
   final String newPassword;
@@ -23,7 +31,7 @@ final class UpdateConfirmNewPasswordChanged extends UpdatePasswordEvent {
   List<Object> get props => [confirmPassword];
 }
 
-final class UpdatePasswordObscured extends UpdatePasswordEvent {}
+final class UpdateCurrentPasswordObscured extends UpdatePasswordEvent {}
 
 final class UpdateNewPasswordObscured extends UpdatePasswordEvent {}
 

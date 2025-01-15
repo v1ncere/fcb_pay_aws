@@ -1,2 +1,2 @@
-export 'account_page.dart';
-export 'account_view.dart';
+export 'account_viewer_page.dart';
+export 'account_viewer_view.dart';

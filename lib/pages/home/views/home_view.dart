@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../utils/utils.dart';
 import '../home.dart';
@@ -34,7 +35,7 @@ class AccountHomeView extends StatelessWidget {
                   FontAwesomeIcons.solidBell,
                   color: ColorString.eucalyptus
                 ),
-                onPressed: () { } // TODO: goto notifications
+                onPressed: () => context.pushNamed(RouteName.notification),
               ),
               IconButton(
                 splashRadius: 25,

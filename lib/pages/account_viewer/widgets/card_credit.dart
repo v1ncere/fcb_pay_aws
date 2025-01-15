@@ -30,7 +30,7 @@ class CardCredit extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: const AssetImage(AssetString.splashLogo),
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.05), BlendMode.dstATop),
+              colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.05), BlendMode.dstATop),
               fit: BoxFit.cover
             ),
             gradient: LinearGradient(

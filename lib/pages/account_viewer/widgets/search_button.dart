@@ -18,7 +18,7 @@ class SearchButton extends StatelessWidget {
             color: const Color(0xFF25C166),
             shadows: <Shadow>[
               Shadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 3,
                 offset: const Offset(0, 1.5)
               )

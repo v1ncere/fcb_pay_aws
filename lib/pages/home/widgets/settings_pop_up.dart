@@ -35,7 +35,7 @@ PopupMenuButton settingsPopUp ({
       size: 16,
       shadows: <Shadow>[
         Shadow(
-          color: Colors.black.withOpacity(0.2),
+          color: Colors.black.withValues(alpha: 0.2),
           blurRadius: 3,
           offset: const Offset(0, 1.5)
         )
@@ -90,7 +90,7 @@ Column _detailsBlock({
           fontSize: 12,
           shadows: <Shadow>[
             Shadow(
-              color: Colors.black.withOpacity(0.15), // Shadow color
+              color: Colors.black.withValues(alpha: 0.15), // Shadow color
               blurRadius: 1,
               offset: const Offset(0, 0.5)
             )

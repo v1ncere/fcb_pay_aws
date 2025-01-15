@@ -140,8 +140,7 @@ class SettingsView extends StatelessWidget {
               const Divider(),
               TextButton(
                 onPressed: () {
-                  // TODO: 
-                  //context.flow<HomeRouterStatus>().update((state) => HomeRouterStatus.updatePassword);
+                  context.goNamed(RouteName.updatePassword);
                 },
                 child: const Text('Update Password')
               ),

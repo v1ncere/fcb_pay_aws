@@ -1,3 +1,4 @@
+import 'package:fcb_pay_aws/pages/update_password/widgets/current_password_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,32 +38,16 @@ class UpdatePasswordView extends StatelessWidget {
         body: BlocListener<UpdatePasswordBloc, UpdatePasswordState>(
           listener: (context, state) {
             if (state.status.isFailure) {
-              final msg = state.message ?? '';
-              if (msg == 'requires-recent-login') {
-                ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  customSnackBar(
-                    text: 'Password update requires recent login. Please sign in again to proceed.',
-                    icon: FontAwesomeIcons.triangleExclamation,
-                    backgroundColor: ColorString.guardsmanRed,
-                    foregroundColor: ColorString.mystic
-                  )
-                );
-                // TODO:
-                // context.flow<HomeRouterStatus>().update((state) => HomeRouterStatus.reauthenticate);
-              } else {
-                ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  customSnackBar(
-                    text: msg,
-                    icon: FontAwesomeIcons.triangleExclamation,
-                    backgroundColor: ColorString.guardsmanRed,
-                    foregroundColor: ColorString.mystic
-                  )
-                );
-              }
+              ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                customSnackBar(
+                  text: state.message ?? '',
+                  icon: FontAwesomeIcons.triangleExclamation,
+                  backgroundColor: ColorString.guardsmanRed,
+                  foregroundColor: ColorString.mystic
+                )
+              );
             }
             if (state.status.isSuccess) {
               ScaffoldMessenger.of(context)
@@ -73,8 +58,7 @@ class UpdatePasswordView extends StatelessWidget {
                 backgroundColor: ColorString.eucalyptus,
                 foregroundColor: ColorString.mystic
               ));
-              // TODO:
-              // context.flow<HomeRouterStatus>().update((state) => HomeRouterStatus.settings);
+              context.goNamed(RouteName.settings);
             }
           },
           child: Padding(
@@ -90,6 +74,8 @@ class UpdatePasswordView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 10),
+                    CurrentPasswordTextField(),
                     SizedBox(height: 10),        
                     NewPasswordTextField(),
                     SizedBox(height: 10),  
@@ -103,7 +89,7 @@ class UpdatePasswordView extends StatelessWidget {
             )
           )
         )
-      ),
+      )
     );
   }
 }

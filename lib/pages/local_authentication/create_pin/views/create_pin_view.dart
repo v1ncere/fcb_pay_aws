@@ -36,7 +36,7 @@ class CreatePinView extends StatelessWidget {
       ),
       body: BlocListener<CreatePinBloc, CreatePinState>(
         listener: (context, state) {
-          // pincode create successful
+          // pinCode create successful
           if (state.status.isEquals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -48,7 +48,7 @@ class CreatePinView extends StatelessWidget {
             ));
             context.replaceNamed(RouteName.authPin);
           }
-          // pincode unequals
+          // pinCode unequals
           if (state.status.isUnequals) {
             ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

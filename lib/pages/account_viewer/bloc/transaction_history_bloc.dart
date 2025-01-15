@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 
-import '../../../models/Transaction.dart';
+import '../../../models/ModelProvider.dart';
 import '../../../utils/utils.dart';
 
 part 'transaction_history_event.dart';
@@ -15,29 +15,27 @@ class TransactionHistoryBloc extends Bloc<TransactionHistoryEvent, TransactionHi
   TransactionHistoryBloc() : super(const TransactionHistoryState()) {
     on<TransactionHistoryLoaded>(_onTransactionHistoryLoaded);
     on<SearchTextFieldChanged>(_onSearchTextFieldChanged);
-    on<NextTransactionFetched>(_onNextTransactionFetched);
   }
 
   void _onTransactionHistoryLoaded(TransactionHistoryLoaded event,  Emitter<TransactionHistoryState> emit) async {
     emit(state.copyWith(status: Status.loading));
     const limit = 50;
-
+    
     final request = ModelQueries.list(Transaction.classType, where: Transaction.ACCOUNT.eq(event.accountID), limit: limit);
     final response = await Amplify.API.query(request: request).response;
     final firstPageData = response.data;
-    final trans = response.data?.items;
-   
-    List<Transaction> transaction = <Transaction>[];
+    final items = response.data?.items;
 
-    if (trans != null) {
-      
+    if (items != null) {
+      List<Transaction> transactionList = <Transaction>[];
+      //
       if(firstPageData?.hasNextResult ?? false) {
         final secondRequest = firstPageData!.requestForNextResult;
         final secondResult = await Amplify.API.query(request: secondRequest!).response;
-        final result = secondResult.data?.items ?? <Transaction?>[];
-        transaction = result.whereType<Transaction>().toList();
+        final secondItem = secondResult.data?.items ?? <Transaction?>[];
+        transactionList = secondItem.whereType<Transaction>().toList();
       } else {
-        transaction = trans.whereType<Transaction>().toList();
+        transactionList = items.whereType<Transaction>().toList();
       }
 
       final query = event.searchQuery.trim().toLowerCase(); // case insensitive
@@ -45,24 +43,22 @@ class TransactionHistoryBloc extends Bloc<TransactionHistoryEvent, TransactionHi
 
       if (event.filter.isNotEmpty) {
         if (filter == 'newest') {
-          transaction.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+          transactionList.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
         } else if (filter == 'oldest') {
-          transaction.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+          transactionList.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
         } else {
-          transaction = transaction.where((trans) {
+          transactionList = transactionList.where((trans) {
             return trans.accountType!.trim().toLowerCase().contains(filter);
           }).toList();
         }
       }
       
       if (event.searchQuery.isNotEmpty) {
-        transaction = transaction.where((trans) {
-          return trans.details!.toLowerCase().contains(query);
-        }).toList();
+        transactionList = transactionList.where((e) => e.details!.toLowerCase().contains(query)).toList();
       }
       
-      if (transaction.isNotEmpty) {
-        state.copyWith(status: Status.success, transactionList: transaction);
+      if (transactionList.isNotEmpty) {
+        state.copyWith(status: Status.success, transactionList: transactionList);
       } else {
         state.copyWith(status: Status.failure, message: TextString.empty);
       }
@@ -71,14 +67,8 @@ class TransactionHistoryBloc extends Bloc<TransactionHistoryEvent, TransactionHi
     }
   }
 
-  Future<void> _onNextTransactionFetched(NextTransactionFetched event, Emitter<TransactionHistoryState> emit) async {
-    
-  }
-
   void _onSearchTextFieldChanged(SearchTextFieldChanged event, Emitter<TransactionHistoryState> emit) {
     final search = Search.dirty(event.searchQuery);
     emit(state.copyWith(searchQuery: search));
   }
-
-
 }

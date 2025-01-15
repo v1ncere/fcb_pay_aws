@@ -138,8 +138,6 @@ class ScannerViewState extends State<ScannerView> {
                 size: 18, 
                 color:Colors.grey
               );
-            default:
-              return const SizedBox.shrink();
           }
         }
       ),

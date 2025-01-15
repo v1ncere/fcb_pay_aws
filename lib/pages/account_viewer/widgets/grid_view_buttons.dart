@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../utils/utils.dart';
 import '../account_viewer.dart';
@@ -30,9 +31,7 @@ class GridViewButtons extends StatelessWidget {
                     color: colorStringParser(button.iconColor!),
                     text: button.title!,
                     onTap: () {
-                      // TODO: 
-                      // context.read<RouterBloc>().add(RouterAccountsButtonPassed(button));
-                      // context.flow<HomeRouterStatus>().update((next) => HomeRouterStatus.accountsViewer);
+                      context.pushNamed(RouteName.dynamicViewer, extra: button);
                     }
                   );
                 }

@@ -12,7 +12,6 @@ export 'enums.dart';
 export 'icon_mapper.dart';
 export 'loading_stack.dart';
 export 'masked.dart';
-export 'material_color_selector.dart';
 export 'number_separator_formatter.dart';
 export 'phone_number_formatter.dart';
 export 'qr_utils.dart';

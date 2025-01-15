@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../models/Account.dart';
 import '../../../utils/utils.dart';
@@ -21,7 +22,7 @@ Card depositsCard({
       decoration: BoxDecoration(
         image: DecorationImage(
           image: const AssetImage(AssetString.splashLogo),
-          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.05), BlendMode.dstATop),
+          colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.05), BlendMode.dstATop),
           fit: BoxFit.cover
         ),
         gradient: LinearGradient(
@@ -67,10 +68,7 @@ Card depositsCard({
             ),
             InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () {
-                // context.read<RouterBloc>().add(RouterAccountsPassed(account));
-                // context.flow<HomeRouterStatus>().update((state) => HomeRouterStatus.account);
-              },
+              onTap: () => context.pushNamed(RouteName.account, extra: account),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
