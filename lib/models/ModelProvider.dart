@@ -55,7 +55,7 @@ export 'TransferableUser.dart';
 
 class ModelProvider implements amplify_core.ModelProviderInterface {
   @override
-  String version = "7678c442e86f8ac74237011abc7aaf56";
+  String version = "bd873ce80abc8763f3e133f6a5686440";
   @override
   List<amplify_core.ModelSchema> modelSchemas = [Account.schema, AccountButton.schema, Button.schema, DynamicModel.schema, DynamicRoute.schema, DynamicWidget.schema, Institution.schema, Notification.schema, PublicAccount.schema, Receipt.schema, Request.schema, SignupVerify.schema, SignupVerifyReply.schema, Transaction.schema, TransferableUser.schema];
   @override

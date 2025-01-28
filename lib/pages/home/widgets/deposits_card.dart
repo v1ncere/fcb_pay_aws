@@ -58,7 +58,7 @@ Card depositsCard({
                     ),
                     settingsPopUp(
                       accountList: accountList,
-                      category: account.category!,
+                      category: account.category ?? '',
                       onSelected: (value) => context.read<AccountsHomeBloc>().add(DepositDisplayChanged(value))
                     )
                   ]
@@ -75,7 +75,7 @@ Card depositsCard({
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      buildAccountNumber(value: account.accountNumber, type: account.type!),
+                      buildAccountNumber(value: account.accountNumber, type: account.type ?? ''),
                       Icon(FontAwesomeIcons.chevronRight, size: 18, color: ColorString.white)
                     ]
                   ),

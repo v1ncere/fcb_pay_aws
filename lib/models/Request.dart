@@ -30,7 +30,7 @@ class Request extends amplify_core.Model {
   final String? _data;
   final String? _verifier;
   final String? _details;
-  final String? _ownerId;
+  final String? _owner;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -59,8 +59,8 @@ class Request extends amplify_core.Model {
     return _details;
   }
   
-  String? get ownerId {
-    return _ownerId;
+  String? get owner {
+    return _owner;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -71,15 +71,15 @@ class Request extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Request._internal({required this.id, data, verifier, details, ownerId, createdAt, updatedAt}): _data = data, _verifier = verifier, _details = details, _ownerId = ownerId, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Request._internal({required this.id, data, verifier, details, owner, createdAt, updatedAt}): _data = data, _verifier = verifier, _details = details, _owner = owner, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Request({String? id, String? data, String? verifier, String? details, String? ownerId}) {
+  factory Request({String? id, String? data, String? verifier, String? details, String? owner}) {
     return Request._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       data: data,
       verifier: verifier,
       details: details,
-      ownerId: ownerId);
+      owner: owner);
   }
   
   bool equals(Object other) {
@@ -94,7 +94,7 @@ class Request extends amplify_core.Model {
       _data == other._data &&
       _verifier == other._verifier &&
       _details == other._details &&
-      _ownerId == other._ownerId;
+      _owner == other._owner;
   }
   
   @override
@@ -109,7 +109,7 @@ class Request extends amplify_core.Model {
     buffer.write("data=" + "$_data" + ", ");
     buffer.write("verifier=" + "$_verifier" + ", ");
     buffer.write("details=" + "$_details" + ", ");
-    buffer.write("ownerId=" + "$_ownerId" + ", ");
+    buffer.write("owner=" + "$_owner" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -117,27 +117,27 @@ class Request extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Request copyWith({String? data, String? verifier, String? details, String? ownerId}) {
+  Request copyWith({String? data, String? verifier, String? details, String? owner}) {
     return Request._internal(
       id: id,
       data: data ?? this.data,
       verifier: verifier ?? this.verifier,
       details: details ?? this.details,
-      ownerId: ownerId ?? this.ownerId);
+      owner: owner ?? this.owner);
   }
   
   Request copyWithModelFieldValues({
     ModelFieldValue<String?>? data,
     ModelFieldValue<String?>? verifier,
     ModelFieldValue<String?>? details,
-    ModelFieldValue<String?>? ownerId
+    ModelFieldValue<String?>? owner
   }) {
     return Request._internal(
       id: id,
       data: data == null ? this.data : data.value,
       verifier: verifier == null ? this.verifier : verifier.value,
       details: details == null ? this.details : details.value,
-      ownerId: ownerId == null ? this.ownerId : ownerId.value
+      owner: owner == null ? this.owner : owner.value
     );
   }
   
@@ -146,12 +146,12 @@ class Request extends amplify_core.Model {
       _data = json['data'],
       _verifier = json['verifier'],
       _details = json['details'],
-      _ownerId = json['ownerId'],
+      _owner = json['owner'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'data': _data, 'verifier': _verifier, 'details': _details, 'ownerId': _ownerId, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'data': _data, 'verifier': _verifier, 'details': _details, 'owner': _owner, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -159,7 +159,7 @@ class Request extends amplify_core.Model {
     'data': _data,
     'verifier': _verifier,
     'details': _details,
-    'ownerId': _ownerId,
+    'owner': _owner,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -169,7 +169,7 @@ class Request extends amplify_core.Model {
   static final DATA = amplify_core.QueryField(fieldName: "data");
   static final VERIFIER = amplify_core.QueryField(fieldName: "verifier");
   static final DETAILS = amplify_core.QueryField(fieldName: "details");
-  static final OWNERID = amplify_core.QueryField(fieldName: "ownerId");
+  static final OWNER = amplify_core.QueryField(fieldName: "owner");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Request";
     modelSchemaDefinition.pluralName = "Requests";
@@ -209,7 +209,7 @@ class Request extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Request.OWNERID,
+      key: Request.OWNER,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

@@ -8,12 +8,12 @@ import 'widgets.dart';
 
 class AccountsCardView extends StatelessWidget {
   const AccountsCardView({super.key});
-  static final empty = Account(accountNumber: '');
+  static final emptyAccount = Account(accountNumber: '');
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccountsHomeBloc, AccountsHomeState>(
-      builder: (context, state) { 
+      builder: (context, state) {
         if (state.status.isLoading) {
           return const Padding(
             padding: EdgeInsets.all(15.0),
@@ -25,15 +25,9 @@ class AccountsCardView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             shrinkWrap: true,
             children: [
-              state.wallet == empty
-              ? walletCard(context: context, account: state.wallet)
-              : const SizedBox.shrink(),
-              state.deposit == empty
-              ? depositsCard(accountList: state.accountList, context: context, account: state.deposit)
-              : const SizedBox.shrink(),
-              state.credit == empty
-              ? creditCard(accountList: state.accountList, context: context, account: state.credit)
-              : const SizedBox.shrink(),
+              if (state.wallet != emptyAccount) walletCard(context: context, account: state.wallet),
+              if (state.deposit != emptyAccount) depositsCard(accountList: state.accountList, context: context, account: state.deposit),
+              if (state.credit != emptyAccount) creditCard(accountList: state.accountList, context: context, account: state.credit),
               const SizedBox(height: 150)
             ]
           );

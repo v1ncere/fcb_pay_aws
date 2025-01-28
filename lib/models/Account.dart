@@ -34,7 +34,7 @@ class Account extends amplify_core.Model {
   final amplify_core.TemporalDateTime? _expiry;
   final String? _type;
   final String? _ownerName;
-  final String? _ownerId;
+  final String? _owner;
   final List<Transaction>? _transactions;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
@@ -98,8 +98,8 @@ class Account extends amplify_core.Model {
     return _ownerName;
   }
   
-  String? get ownerId {
-    return _ownerId;
+  String? get owner {
+    return _owner;
   }
   
   List<Transaction>? get transactions {
@@ -114,9 +114,9 @@ class Account extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Account._internal({required accountNumber, balance, category, creditLimit, expiry, type, ownerName, ownerId, transactions, createdAt, updatedAt}): _accountNumber = accountNumber, _balance = balance, _category = category, _creditLimit = creditLimit, _expiry = expiry, _type = type, _ownerName = ownerName, _ownerId = ownerId, _transactions = transactions, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Account._internal({required accountNumber, balance, category, creditLimit, expiry, type, ownerName, owner, transactions, createdAt, updatedAt}): _accountNumber = accountNumber, _balance = balance, _category = category, _creditLimit = creditLimit, _expiry = expiry, _type = type, _ownerName = ownerName, _owner = owner, _transactions = transactions, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Account({required String accountNumber, double? balance, String? category, double? creditLimit, amplify_core.TemporalDateTime? expiry, String? type, String? ownerName, String? ownerId, List<Transaction>? transactions}) {
+  factory Account({required String accountNumber, double? balance, String? category, double? creditLimit, amplify_core.TemporalDateTime? expiry, String? type, String? ownerName, String? owner, List<Transaction>? transactions}) {
     return Account._internal(
       accountNumber: accountNumber,
       balance: balance,
@@ -125,7 +125,7 @@ class Account extends amplify_core.Model {
       expiry: expiry,
       type: type,
       ownerName: ownerName,
-      ownerId: ownerId,
+      owner: owner,
       transactions: transactions != null ? List<Transaction>.unmodifiable(transactions) : transactions);
   }
   
@@ -144,7 +144,7 @@ class Account extends amplify_core.Model {
       _expiry == other._expiry &&
       _type == other._type &&
       _ownerName == other._ownerName &&
-      _ownerId == other._ownerId &&
+      _owner == other._owner &&
       DeepCollectionEquality().equals(_transactions, other._transactions);
   }
   
@@ -163,7 +163,7 @@ class Account extends amplify_core.Model {
     buffer.write("expiry=" + (_expiry != null ? _expiry!.format() : "null") + ", ");
     buffer.write("type=" + "$_type" + ", ");
     buffer.write("ownerName=" + "$_ownerName" + ", ");
-    buffer.write("ownerId=" + "$_ownerId" + ", ");
+    buffer.write("owner=" + "$_owner" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -171,7 +171,7 @@ class Account extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Account copyWith({double? balance, String? category, double? creditLimit, amplify_core.TemporalDateTime? expiry, String? type, String? ownerName, String? ownerId, List<Transaction>? transactions}) {
+  Account copyWith({double? balance, String? category, double? creditLimit, amplify_core.TemporalDateTime? expiry, String? type, String? ownerName, String? owner, List<Transaction>? transactions}) {
     return Account._internal(
       accountNumber: accountNumber,
       balance: balance ?? this.balance,
@@ -180,7 +180,7 @@ class Account extends amplify_core.Model {
       expiry: expiry ?? this.expiry,
       type: type ?? this.type,
       ownerName: ownerName ?? this.ownerName,
-      ownerId: ownerId ?? this.ownerId,
+      owner: owner ?? this.owner,
       transactions: transactions ?? this.transactions);
   }
   
@@ -191,7 +191,7 @@ class Account extends amplify_core.Model {
     ModelFieldValue<amplify_core.TemporalDateTime?>? expiry,
     ModelFieldValue<String?>? type,
     ModelFieldValue<String?>? ownerName,
-    ModelFieldValue<String?>? ownerId,
+    ModelFieldValue<String?>? owner,
     ModelFieldValue<List<Transaction>?>? transactions
   }) {
     return Account._internal(
@@ -202,7 +202,7 @@ class Account extends amplify_core.Model {
       expiry: expiry == null ? this.expiry : expiry.value,
       type: type == null ? this.type : type.value,
       ownerName: ownerName == null ? this.ownerName : ownerName.value,
-      ownerId: ownerId == null ? this.ownerId : ownerId.value,
+      owner: owner == null ? this.owner : owner.value,
       transactions: transactions == null ? this.transactions : transactions.value
     );
   }
@@ -215,7 +215,7 @@ class Account extends amplify_core.Model {
       _expiry = json['expiry'] != null ? amplify_core.TemporalDateTime.fromString(json['expiry']) : null,
       _type = json['type'],
       _ownerName = json['ownerName'],
-      _ownerId = json['ownerId'],
+      _owner = json['owner'],
       _transactions = json['transactions']  is Map
         ? (json['transactions']['items'] is List
           ? (json['transactions']['items'] as List)
@@ -233,7 +233,7 @@ class Account extends amplify_core.Model {
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'accountNumber': _accountNumber, 'balance': _balance, 'category': _category, 'creditLimit': _creditLimit, 'expiry': _expiry?.format(), 'type': _type, 'ownerName': _ownerName, 'ownerId': _ownerId, 'transactions': _transactions?.map((Transaction? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'accountNumber': _accountNumber, 'balance': _balance, 'category': _category, 'creditLimit': _creditLimit, 'expiry': _expiry?.format(), 'type': _type, 'ownerName': _ownerName, 'owner': _owner, 'transactions': _transactions?.map((Transaction? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -244,7 +244,7 @@ class Account extends amplify_core.Model {
     'expiry': _expiry,
     'type': _type,
     'ownerName': _ownerName,
-    'ownerId': _ownerId,
+    'owner': _owner,
     'transactions': _transactions,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
@@ -258,7 +258,7 @@ class Account extends amplify_core.Model {
   static final EXPIRY = amplify_core.QueryField(fieldName: "expiry");
   static final TYPE = amplify_core.QueryField(fieldName: "type");
   static final OWNERNAME = amplify_core.QueryField(fieldName: "ownerName");
-  static final OWNERID = amplify_core.QueryField(fieldName: "ownerId");
+  static final OWNER = amplify_core.QueryField(fieldName: "owner");
   static final TRANSACTIONS = amplify_core.QueryField(
     fieldName: "transactions",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Transaction'));
@@ -327,7 +327,7 @@ class Account extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Account.OWNERID,
+      key: Account.OWNER,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

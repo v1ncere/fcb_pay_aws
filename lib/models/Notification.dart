@@ -30,7 +30,7 @@ class Notification extends amplify_core.Model {
   final String? _content;
   final bool? _isRead;
   final String? _sender;
-  final String? _ownerId;
+  final String? _owner;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -59,8 +59,8 @@ class Notification extends amplify_core.Model {
     return _sender;
   }
   
-  String? get ownerId {
-    return _ownerId;
+  String? get owner {
+    return _owner;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -71,15 +71,15 @@ class Notification extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Notification._internal({required this.id, content, isRead, sender, ownerId, createdAt, updatedAt}): _content = content, _isRead = isRead, _sender = sender, _ownerId = ownerId, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Notification._internal({required this.id, content, isRead, sender, owner, createdAt, updatedAt}): _content = content, _isRead = isRead, _sender = sender, _owner = owner, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Notification({String? id, String? content, bool? isRead, String? sender, String? ownerId}) {
+  factory Notification({String? id, String? content, bool? isRead, String? sender, String? owner}) {
     return Notification._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content,
       isRead: isRead,
       sender: sender,
-      ownerId: ownerId);
+      owner: owner);
   }
   
   bool equals(Object other) {
@@ -94,7 +94,7 @@ class Notification extends amplify_core.Model {
       _content == other._content &&
       _isRead == other._isRead &&
       _sender == other._sender &&
-      _ownerId == other._ownerId;
+      _owner == other._owner;
   }
   
   @override
@@ -109,7 +109,7 @@ class Notification extends amplify_core.Model {
     buffer.write("content=" + "$_content" + ", ");
     buffer.write("isRead=" + (_isRead != null ? _isRead!.toString() : "null") + ", ");
     buffer.write("sender=" + "$_sender" + ", ");
-    buffer.write("ownerId=" + "$_ownerId" + ", ");
+    buffer.write("owner=" + "$_owner" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -117,27 +117,27 @@ class Notification extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Notification copyWith({String? content, bool? isRead, String? sender, String? ownerId}) {
+  Notification copyWith({String? content, bool? isRead, String? sender, String? owner}) {
     return Notification._internal(
       id: id,
       content: content ?? this.content,
       isRead: isRead ?? this.isRead,
       sender: sender ?? this.sender,
-      ownerId: ownerId ?? this.ownerId);
+      owner: owner ?? this.owner);
   }
   
   Notification copyWithModelFieldValues({
     ModelFieldValue<String?>? content,
     ModelFieldValue<bool?>? isRead,
     ModelFieldValue<String?>? sender,
-    ModelFieldValue<String?>? ownerId
+    ModelFieldValue<String?>? owner
   }) {
     return Notification._internal(
       id: id,
       content: content == null ? this.content : content.value,
       isRead: isRead == null ? this.isRead : isRead.value,
       sender: sender == null ? this.sender : sender.value,
-      ownerId: ownerId == null ? this.ownerId : ownerId.value
+      owner: owner == null ? this.owner : owner.value
     );
   }
   
@@ -146,12 +146,12 @@ class Notification extends amplify_core.Model {
       _content = json['content'],
       _isRead = json['isRead'],
       _sender = json['sender'],
-      _ownerId = json['ownerId'],
+      _owner = json['owner'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'content': _content, 'isRead': _isRead, 'sender': _sender, 'ownerId': _ownerId, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'content': _content, 'isRead': _isRead, 'sender': _sender, 'owner': _owner, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -159,7 +159,7 @@ class Notification extends amplify_core.Model {
     'content': _content,
     'isRead': _isRead,
     'sender': _sender,
-    'ownerId': _ownerId,
+    'owner': _owner,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -169,7 +169,7 @@ class Notification extends amplify_core.Model {
   static final CONTENT = amplify_core.QueryField(fieldName: "content");
   static final ISREAD = amplify_core.QueryField(fieldName: "isRead");
   static final SENDER = amplify_core.QueryField(fieldName: "sender");
-  static final OWNERID = amplify_core.QueryField(fieldName: "ownerId");
+  static final OWNER = amplify_core.QueryField(fieldName: "owner");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Notification";
     modelSchemaDefinition.pluralName = "Notifications";
@@ -209,7 +209,7 @@ class Notification extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Notification.OWNERID,
+      key: Notification.OWNER,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

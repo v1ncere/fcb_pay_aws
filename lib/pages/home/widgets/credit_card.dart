@@ -14,8 +14,8 @@ Card creditCard({
   required List<Account> accountList,
   required Account account
 }) {
-  final limit = account.creditLimit!;
-  final bal = account.balance!;
+  final limit = account.creditLimit ?? 0.0;
+  final bal = account.balance ?? 0.0;
   return Card(
     elevation: 2.0,
     color: ColorString.eucalyptus,
@@ -61,7 +61,7 @@ Card creditCard({
                     ),
                     settingsPopUp(
                       accountList: accountList,
-                      category: account.category!,
+                      category: account.category ?? '',
                       onSelected: (value) {
                         context.read<AccountsHomeBloc>().add(CreditDisplayChanged(value));
                       }
@@ -79,7 +79,7 @@ Card creditCard({
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      buildAccountNumber(value: account.accountNumber, type: account.type!),
+                      buildAccountNumber(value: account.accountNumber, type: account.type ?? ''),
                       Icon(FontAwesomeIcons.chevronRight, size: 18, color: ColorString.white)
                     ]
                   ),
@@ -132,7 +132,7 @@ Card creditCard({
             )
           ]
         )
-      ),
+      )
     )
   );
 }

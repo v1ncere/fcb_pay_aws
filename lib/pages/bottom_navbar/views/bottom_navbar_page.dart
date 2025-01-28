@@ -17,13 +17,13 @@ class BottomNavbarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => AccountsHomeBloc(hiveRepository: _hiveRepository)
+        ..add(UserAttributesFetched())
+        ..add(AccountsHomeFetched())),
         BlocProvider(create: (context) => PaymentButtonsBloc()
         ..add(PaymentButtonsFetched())),
         BlocProvider(create: (context) => TransferButtonsBloc()
         ..add(TransferButtonsFetched())),
-        BlocProvider(create: (context) => AccountsHomeBloc(hiveRepository: _hiveRepository)
-        ..add(UserAttributesFetched())
-        ..add(AccountsHomeLoaded())),
         BlocProvider(create: (context) => BottomNavbarCubit()),
       ],
       child: const BottomNavbarView()

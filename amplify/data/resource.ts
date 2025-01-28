@@ -16,7 +16,7 @@ const schema = a.schema({
     expiry: a.datetime(),
     type: a.string(),
     ownerName: a.string(),
-    ownerId: a.string(),
+    owner: a.string(),
     // relationships
     transactions: a.hasMany('Transaction', 'accountId') // one to many
   }).identifier(['accountNumber'])
@@ -26,14 +26,14 @@ const schema = a.schema({
   DynamicModel: a.model({
     reference: a.string().required(),
     data: a.json().required(),
-  }).authorization((allow) => [allow.owner()]),
+  }).authorization((allow) => [allow.authenticated()]),
 
   // Fund Transfer Accounts
   TransferableUser: a.model({
     transferableUserId: a.string().required(),
     name: a.string(),
     isTransferable: a.boolean(),
-    ownerId: a.string(),
+    owner: a.string(),
   }).identifier(['transferableUserId'])
   .authorization((allow) => [allow.owner()]),
 
@@ -42,21 +42,21 @@ const schema = a.schema({
     accountNumber: a.string().required(),
     isExisted: a.boolean().required(),
   }).identifier(['accountNumber'])
-  .authorization((allow) => [allow.owner(), allow.guest()]),
+  .authorization((allow) => [allow.guest()]),
 
   // Sign Up Verify
   SignupVerify: a.model({
     id: a.id().required(),
     data: a.string(),
   }).identifier(['id'])
-  .authorization((allow) => [allow.owner(), allow.guest()]),
+  .authorization((allow) => [allow.guest()]),
 
   // Sign up Verify Reply
   SignupVerifyReply: a.model({
     id: a.id().required(),
     data: a.string(),
   }).identifier(['id'])
-  .authorization((allow) => [allow.owner(), allow.guest()]),
+  .authorization((allow) => [allow.guest()]),
   
   // Account Action Button
   AccountButton: a.model({
@@ -64,7 +64,7 @@ const schema = a.schema({
     // relationships
     buttons: a.hasMany('Button', 'accountButtonId'), // one to many
   }).identifier(['type'])
-  .authorization((allow) => [allow.owner()]),
+  .authorization((allow) => [allow.authenticated()]),
 
   // Button
   Button: a.model({
@@ -81,13 +81,13 @@ const schema = a.schema({
     dynamicRouteId: a.id(), // foreign key to link with DynamicWidget Viewer
     dynamicRoute: a.belongsTo('DynamicRoute', 'dynamicRouteId'), // relationship to DynamicWidget Viewer
     widgets: a.hasMany('DynamicWidget', 'buttonId') // one to many
-  }).authorization((allow) => [allow.owner()]),
+  }).authorization((allow) => [allow.authenticated()]),
 
   // Dynamic Viewer Widget
   DynamicRoute: a.model({
     title: a.string(),
     buttons: a.hasMany('Button', 'dynamicRouteId'), // one to many
-  }).authorization((allow) => [allow.owner()]),
+  }).authorization((allow) => [allow.authenticated()]),
   
   // Dynamic Widget 
   DynamicWidget: a.model({
@@ -105,7 +105,7 @@ const schema = a.schema({
     institutionWidget: a.belongsTo('Institution', 'institutionWidgetId'),
     institutionExtraId: a.id(), // foreign key to link with Institution
     institutionExtraWidget: a.belongsTo('Institution', 'institutionExtraId'),
-  }).authorization((allow) => [allow.owner()]),
+  }).authorization((allow) => [allow.authenticated()]),
   
   // Institution
   Institution: a.model({
@@ -115,20 +115,20 @@ const schema = a.schema({
     // relationships
     widget: a.hasMany('DynamicWidget', 'institutionWidgetId'),
     extraWidget: a.hasMany('DynamicWidget', 'institutionExtraId')
-  }).authorization((allow) => [allow.owner()]),
+  }).authorization((allow) => [allow.authenticated()]),
 
   // Notification
   Notification: a.model({
-    content: a.string(),
+    content: a.string(), 
     isRead: a.boolean(),
     sender: a.string(),
-    ownerId: a.string(),
+    owner: a.string(),
   }).authorization((allow) => [allow.owner()]),
 
   // Receipt 
   Receipt: a.model({
     data: a.json(),
-    ownerId: a.string(),
+    owner: a.string(),
   }).authorization((allow) => [allow.owner()]),
 
   // Transaction History
@@ -136,6 +136,7 @@ const schema = a.schema({
     accountNumber: a.string(),
     accountType: a.string(),
     details: a.string(),
+    owner: a.string(),
     // relationships
     accountId: a.id(), // foreign key to link with Account
     account: a.belongsTo('Account', 'accountId'), // relationship to Account
@@ -146,7 +147,7 @@ const schema = a.schema({
     data: a.string(),
     verifier: a.string(),
     details: a.string(),
-    ownerId: a.string(),
+    owner: a.string(),
   }).authorization((allow) => [allow.owner()]),
 
   // SearchFilter

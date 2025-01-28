@@ -142,16 +142,18 @@ class ScannerTransactionBloc extends Bloc<ScannerTransactionEvent, ScannerTransa
           .map((e) => '${e.key}:${e.value}')
           .join(',');
           
-          final rawQR = await _hiveRepository.getRawQR(); // raw qr data (unparsed qr data)
+          // final rawQR = await _hiveRepository.getRawQR(); // raw qr data (unparsed qr data)
           final extra = _containsExtraFields() ? '|$additional' : '';
           final tipCon = state.qrDataList.indexWhere((e) => e.id == 'main55') != -1 ? '|${state.tip}' : '';
+          final title = 'qr_transaction';
+          final dataRequest = '$title|${state.accountDropdown.value}|${state.inputAmount.value}$tipCon|$result$extra';
 
           final request = ModelMutations.create(
             Request(
-              data: 'qr_transaction|${state.accountDropdown.value}|${state.inputAmount.value}$tipCon|$result$extra',
-              verifier: rawQR,
+              data: dataRequest,
+              verifier: hashSha1(encryption("$dataRequest$extra${state.uid}")),
               details: extra,
-              ownerId: tipCon,
+              owner: state.uid,
             )
           );
           final response = await Amplify.API.mutate(request: request).response;

@@ -106,12 +106,13 @@ class AccountAddBloc extends Bloc<AccountAddEvent, AccountAddState> {
       //
       try {
         final user = await Amplify.Auth.getCurrentUser();
-        final data = 'add_account|${state.accountNumber.value}|${state.firstName.value}';
+        final title = 'add_account';
+        final data = '$title|${state.accountNumber.value}|${state.firstName.value}';
         final request = ModelMutations.create(Request(
           data: data,
-          details: 'extra_details_here_for_you',
-          verifier: 'extra_layer_of_security_sha_1',
-          ownerId: user.userId,
+          details: title,
+          verifier: hashSha1(encryption("$data$title${user.userId}")),
+          owner: user.userId,
         ));
         final response = await Amplify.API.mutate(request: request).response;
         if (response.hasErrors) {

@@ -8,11 +8,17 @@ import 'amplify_outputs.dart';
 
 Future<void> configureAmplify() async {
   try {
-    await Amplify.addPlugins([
-      AmplifyStorageS3(),
-      AmplifyAuthCognito(),
-      AmplifyAPI(options: APIPluginOptions(modelProvider: ModelProvider.instance)),
-    ]);
+    await Amplify.addPlugins(
+      [
+        AmplifyAuthCognito(),
+        AmplifyAPI(
+          options: APIPluginOptions(
+            modelProvider: ModelProvider.instance
+          )
+        ),
+        AmplifyStorageS3(),
+      ]
+    );
     await Amplify.configure(amplifyConfig);
     safePrint('Successfully configured');
   } on Exception catch (e) {

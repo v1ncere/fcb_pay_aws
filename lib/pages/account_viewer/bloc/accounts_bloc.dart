@@ -23,7 +23,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     final isConnected = await checkNetworkStatus();
     if (isConnected) {
       final user = await Amplify.Auth.getCurrentUser();
-      final request = ModelQueries.list(Account.classType, where: Account.OWNERID.eq(user.userId));
+      final request = ModelQueries.list(Account.classType, where: Account.OWNER.eq(user.userId));
       final response = await Amplify.API.query(request: request).response;
       final accounts = response.data?.items;
       
@@ -49,10 +49,14 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(requestStatus: Status.loading));
     try {
       final user = await Amplify.Auth.getCurrentUser();
+      final title = 'request_balance';
+      final data = '$title|${event.account.accountNumber}|${event.account.ownerName}';
+      // create balance request
       final request = ModelMutations.create(Request(
-        data: 'request_balance|${event.account.accountNumber}|hashed_data_for_security',
-        verifier: '', 
-        ownerId: user.userId
+        data: data,
+        details: title,
+        verifier: hashSha1(encryption("$data$title${user.userId}")),
+        owner: user.userId
       ));
 
       final response = await Amplify.API.mutate(request: request).response;

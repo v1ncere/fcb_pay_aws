@@ -16,7 +16,7 @@ class ScannerTransactionPage extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AccountsHomeBloc(hiveRepository: _hiveRepository)
-          ..add(AccountsHomeLoaded())),
+          ..add(AccountsHomeFetched())),
           BlocProvider(create: (context) => ScannerTransactionBloc(hiveRepository: _hiveRepository)
           ..add(ScannerTransactionDisplayLoaded())
           ..add(ScannerCurrentUserFetched()))

@@ -18,16 +18,16 @@ class AccountSettingsBloc extends Bloc<AccountSettingsEvent, AccountSettingsStat
     emit(state.copyWith(status: Status.loading));
     try {
       final current = await Amplify.Auth.getCurrentUser();
-      final account = event.account;
-      final method = event.method.toLowerCase();
-      final request = ModelMutations.create(
-        Request(
-          data: '${method}_account|${current.userId}|$account',
-          verifier: '${current.userId}_something_sha_1',
-          details: 'additional_data_here',
-          ownerId: current.userId,
-        )
-      );
+      final title = "${event.method.toLowerCase()}_account";
+      final data = '$title|${event.account}|${current.userId}';
+      
+      // request to alter account
+      final request = ModelMutations.create(Request(
+        data: data,
+        details: title,
+        verifier: hashSha1(encryption("$data$title${current.userId}")),  
+        owner: current.userId,
+      ));
       final response = await Amplify.API.mutate(request: request).response;
       if(response.hasErrors) {
         emit(state.copyWith(status: Status.failure, message: response.errors.first.message));

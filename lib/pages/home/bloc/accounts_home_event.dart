@@ -7,7 +7,7 @@ sealed class AccountsHomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class AccountsHomeLoaded extends AccountsHomeEvent {}
+final class AccountsHomeFetched extends AccountsHomeEvent {}
 
 final class AccountsHomeUpdated extends AccountsHomeEvent {
   const AccountsHomeUpdated(this.accountList);
@@ -34,7 +34,5 @@ final class CreditDisplayChanged extends AccountsHomeEvent {
 }
 
 final class UserAttributesFetched extends AccountsHomeEvent {}
-
-final class CurrentUserFetched extends AccountsHomeEvent {}
 
 final class AccountsHomeRefreshed extends AccountsHomeEvent {}

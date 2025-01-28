@@ -24,7 +24,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(state.copyWith(status: Status.loading));
     try {
       final user = await Amplify.Auth.getCurrentUser();
-      final request = ModelQueries.list(Notification.classType, where: Notification.OWNERID.eq(user.userId));
+      final request = ModelQueries.list(Notification.classType, where: Notification.OWNER.eq(user.userId));
       final response = await Amplify.API.query(request: request).response;
       final items = response.data?.items;
 
@@ -43,7 +43,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   void _onNotificationsStreamed(NotificationsStreamed event, Emitter<NotificationsState> emit) async {
     final user = await Amplify.Auth.getCurrentUser();
-    final subscriptionRequest = ModelSubscriptions.onCreate(Notification.classType, where: Notification.OWNERID.eq(user.userId));
+    final subscriptionRequest = ModelSubscriptions.onCreate(Notification.classType, where: Notification.OWNER.eq(user.userId));
     final operation = Amplify.API.subscribe(subscriptionRequest, onEstablished: () => safePrint('Subscription Established'));
     subscription = operation.listen(
       (event) {

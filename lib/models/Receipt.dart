@@ -28,7 +28,7 @@ class Receipt extends amplify_core.Model {
   static const classType = const _ReceiptModelType();
   final String id;
   final String? _data;
-  final String? _ownerId;
+  final String? _owner;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -49,8 +49,8 @@ class Receipt extends amplify_core.Model {
     return _data;
   }
   
-  String? get ownerId {
-    return _ownerId;
+  String? get owner {
+    return _owner;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -61,13 +61,13 @@ class Receipt extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const Receipt._internal({required this.id, data, ownerId, createdAt, updatedAt}): _data = data, _ownerId = ownerId, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Receipt._internal({required this.id, data, owner, createdAt, updatedAt}): _data = data, _owner = owner, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Receipt({String? id, String? data, String? ownerId}) {
+  factory Receipt({String? id, String? data, String? owner}) {
     return Receipt._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       data: data,
-      ownerId: ownerId);
+      owner: owner);
   }
   
   bool equals(Object other) {
@@ -80,7 +80,7 @@ class Receipt extends amplify_core.Model {
     return other is Receipt &&
       id == other.id &&
       _data == other._data &&
-      _ownerId == other._ownerId;
+      _owner == other._owner;
   }
   
   @override
@@ -93,7 +93,7 @@ class Receipt extends amplify_core.Model {
     buffer.write("Receipt {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("data=" + "$_data" + ", ");
-    buffer.write("ownerId=" + "$_ownerId" + ", ");
+    buffer.write("owner=" + "$_owner" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -101,39 +101,39 @@ class Receipt extends amplify_core.Model {
     return buffer.toString();
   }
   
-  Receipt copyWith({String? data, String? ownerId}) {
+  Receipt copyWith({String? data, String? owner}) {
     return Receipt._internal(
       id: id,
       data: data ?? this.data,
-      ownerId: ownerId ?? this.ownerId);
+      owner: owner ?? this.owner);
   }
   
   Receipt copyWithModelFieldValues({
     ModelFieldValue<String?>? data,
-    ModelFieldValue<String?>? ownerId
+    ModelFieldValue<String?>? owner
   }) {
     return Receipt._internal(
       id: id,
       data: data == null ? this.data : data.value,
-      ownerId: ownerId == null ? this.ownerId : ownerId.value
+      owner: owner == null ? this.owner : owner.value
     );
   }
   
   Receipt.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _data = json['data'],
-      _ownerId = json['ownerId'],
+      _owner = json['owner'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'data': _data, 'ownerId': _ownerId, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'data': _data, 'owner': _owner, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
     'id': id,
     'data': _data,
-    'ownerId': _ownerId,
+    'owner': _owner,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -141,7 +141,7 @@ class Receipt extends amplify_core.Model {
   static final amplify_core.QueryModelIdentifier<ReceiptModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<ReceiptModelIdentifier>();
   static final ID = amplify_core.QueryField(fieldName: "id");
   static final DATA = amplify_core.QueryField(fieldName: "data");
-  static final OWNERID = amplify_core.QueryField(fieldName: "ownerId");
+  static final OWNER = amplify_core.QueryField(fieldName: "owner");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Receipt";
     modelSchemaDefinition.pluralName = "Receipts";
@@ -169,7 +169,7 @@ class Receipt extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Receipt.OWNERID,
+      key: Receipt.OWNER,
       isRequired: false,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

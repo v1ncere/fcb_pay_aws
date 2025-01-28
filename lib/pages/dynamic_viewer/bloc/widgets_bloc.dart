@@ -138,13 +138,15 @@ class WidgetsBloc extends Bloc<WidgetsEvent, WidgetsState> {
 
         // request title, 
         final reqTitle = event.title.trim().replaceAll(' ', '_').toLowerCase();
-        // add request into firebase database
+
+        // data send to the api
+        final data = '$reqTitle$dynamicWidgetsResult$extraWidgetsResult';
         
         final request = ModelMutations.create(Request(
-          data: '$reqTitle$dynamicWidgetsResult$extraWidgetsResult',
-          verifier: '',
-          ownerId: state.uid,
-          details: ''
+          data: data,
+          details: reqTitle,
+          verifier: hashSha1(encryption('$data$reqTitle${state.uid}')),
+          owner: state.uid,
         ));
         final response = await Amplify.API.mutate(request: request).response;
         
@@ -219,7 +221,7 @@ class WidgetsBloc extends Bloc<WidgetsEvent, WidgetsState> {
       for (final dropdown in dropdownList) {
         final ref = dropdown.node!.replaceAll('{id}', state.uid);
         if(ref.isNotEmpty) {
-          final request = ModelQueries.list(Account.classType, where: Account.OWNERID.eq(state.uid));
+          final request = ModelQueries.list(Account.classType, where: Account.OWNER.eq(state.uid));
           final response = await Amplify.API.query(request: request).response;
           final data = response.data?.items;
 

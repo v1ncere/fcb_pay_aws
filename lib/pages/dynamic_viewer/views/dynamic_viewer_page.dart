@@ -24,7 +24,7 @@ class DynamicViewerPage extends StatelessWidget {
           BlocProvider(create: (context) => DropdownBloc()),
           // accounts home bloc with event [accounts home load] invoked
           BlocProvider(create: (context) => AccountsHomeBloc(hiveRepository: _hiveRepository)
-          ..add(AccountsHomeLoaded())),
+          ..add(AccountsHomeFetched())),
           // widgets bloc with event [widgets load] invoked
           BlocProvider(create: (context) => WidgetsBloc(hiveRepository: _hiveRepository)
           ..add(WidgetsFetched(button.id))

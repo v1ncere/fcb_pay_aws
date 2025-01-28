@@ -18,16 +18,16 @@ class AccountsHomeBloc extends Bloc<AccountsHomeEvent, AccountsHomeState> {
   AccountsHomeBloc({
     required HiveRepository hiveRepository,
   }) : _hiveRepository = hiveRepository,
-  super(AccountsHomeState(status: Status.loading, userStatus: Status.loading, credit: emptyAccount, deposit: emptyAccount, wallet: emptyAccount)) {
-    on<AccountsHomeLoaded>(_onAccountsHomeLoaded);
+  super(AccountsHomeState(credit: emptyAccount, deposit: emptyAccount, wallet: emptyAccount)) {
+    on<UserAttributesFetched>(_onUserAttributesFetched);
+    on<AccountsHomeFetched>(_onAccountsHomeLoaded);
     on<DepositDisplayChanged>(_onDepositDisplayChanged);
     on<CreditDisplayChanged>(_onCreditDisplayChanged);
-    on<UserAttributesFetched>(_onUserAttributesFetched);
     on<AccountsHomeRefreshed>(_onAccountsHomeRefreshed);
   }
   final HiveRepository _hiveRepository;
 
-  Future<void>  _onAccountsHomeLoaded(AccountsHomeLoaded event, Emitter<AccountsHomeState> emit) async {
+  Future<void>  _onAccountsHomeLoaded(AccountsHomeFetched event, Emitter<AccountsHomeState> emit) async {
     await _fetchDataAndRefreshState(emit);
   }
 
@@ -37,45 +37,49 @@ class AccountsHomeBloc extends Bloc<AccountsHomeEvent, AccountsHomeState> {
 
   // change deposit display
   Future<void> _onDepositDisplayChanged(DepositDisplayChanged event, Emitter<AccountsHomeState>  emit) async {
-    _hiveRepository.addDepositId(uid: state.uid, account: event.id); // save id into local storage using [hive]
     emit(state.copyWith(status: Status.loading)); // emit status loading
+    _hiveRepository.addDepositId(uid: state.uid, account: event.id); // save id into local storage using [hive]
     await _fetchDataAndRefreshState(emit); // refresh the state
   }
 
   // change credit display
   Future<void> _onCreditDisplayChanged(CreditDisplayChanged event, Emitter<AccountsHomeState> emit) async {
-    _hiveRepository.addCreditId(uid: state.uid, account: event.id); // save id into local storage using [hive]
     emit(state.copyWith(status: Status.loading)); // emit status loading
+    _hiveRepository.addCreditId(uid: state.uid, account: event.id); // save id into local storage using [hive]
     await _fetchDataAndRefreshState(emit); // refresh the state
   }
 
   // refresh the state
   Future<void> _onAccountsHomeRefreshed(AccountsHomeRefreshed event, Emitter<AccountsHomeState> emit) async {
     emit(state.copyWith(status: Status.loading, userStatus: Status.loading)); // emit status loading
-    await _fetchDataAndRefreshState(emit); // refresh the state
     await _fetchUserDetails(emit);
+    await _fetchDataAndRefreshState(emit); // refresh the state
   }
 
   // UTILITY METHODS ===============================================================================
-
   // fetching list of accounts from AWS
   Future<void> _fetchDataAndRefreshState(Emitter<AccountsHomeState> emit) async {
     emit(state.copyWith(status: Status.loading));
-    final isConnected = await checkNetworkStatus();
-    if (isConnected) {
+    if (await checkNetworkStatus()) {
       try {
-        final request = ModelQueries.list(Account.classType, where: Account.OWNERID.eq(state.uid));
+        final user = await Amplify.Auth.getCurrentUser();
+        final request = ModelQueries.list(Account.classType, where: Account.OWNER.eq(user.userId), authorizationMode: APIAuthorizationType.iam);
         final response = await Amplify.API.query(request: request).response;
-        final accounts = response.data?.items;
-        if (accounts == null || accounts.isEmpty) {
-          emit(state.copyWith(status: Status.failure, message: 'No accounts found'));
+        final items = response.data?.items;
+        // check if the response is not null
+        if (items == null) {
+          emit(state.copyWith(status: Status.failure, message: response.errors.first.message));
         } else {
-          final accountList = accounts.whereType<Account>().toList();
+          final accountList = items.whereType<Account>().toList();
           Account wallet = _getAccountOfCategory(accountList, 'wallet'); // locate the wallet account
           Account deposit = await _getDepositAccount(accountList); // locate the deposit account
           Account credit = await _getCreditAccount(accountList); // locate the credit account
+
+
           emit(state.copyWith(status: Status.success, accountList: accountList, wallet: wallet, deposit: deposit, credit: credit));
         }
+      } on AuthException catch (e) {
+        emit(state.copyWith(status: Status.failure, message: e.message));
       } on ApiException catch (e) {
         emit(state.copyWith(status: Status.failure, message: e.message));
       } catch (e) {
@@ -105,7 +109,7 @@ class AccountsHomeBloc extends Bloc<AccountsHomeEvent, AccountsHomeState> {
     }
   }
 
-  // get the category of an Account
+  // get the category of the Account
   Account _getAccountOfCategory(List<Account> accountList, String category) {
     return accountList.firstWhere((account) => account.category!.toLowerCase() == category, orElse: () => emptyAccount);
   }

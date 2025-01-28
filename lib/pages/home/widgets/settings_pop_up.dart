@@ -21,8 +21,8 @@ PopupMenuButton settingsPopUp ({
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAccountNumber(type: value.type!, value: value.accountNumber),
-              _detailsBlock(label: 'CARD HOLDER', value: value.ownerName!),
+              _buildAccountNumber(type: value.type ?? '', value: value.accountNumber),
+              _detailsBlock(label: 'CARD HOLDER', value: value.ownerName ?? ''),
               const Divider(color: Colors.black12)
             ]
           )

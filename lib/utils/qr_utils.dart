@@ -112,7 +112,7 @@ String qrDataTitleWidget(String data, String req) {
       case 62:
         return (req == 'title') ? 'Additional Data Field' : 'text';
       case 63:
-        return (req == 'title') ? 'Cyclic Redunduncy Check(CRC)' : 'text';
+        return (req == 'title') ? 'Cyclic Redundancy Check(CRC)' : 'text';
       case 64:
         return (req == 'title') ? 'Merchant Information' : 'text'; // Language Template
       case >= 65 && <= 79:
@@ -188,7 +188,7 @@ String qrDataTitleWidget(String data, String req) {
       case 8800:
         return (req == 'title') ? 'Payment System Unique ID' : 'text';
       case 8801:
-        return (req == 'title') ? 'Aquirer-Required Information' : 'text'; // FCB REQUIRED INFO
+        return (req == 'title') ? 'Acquirer-Required Information' : 'text'; // FCB REQUIRED INFO
       default:
         return '';
     }
